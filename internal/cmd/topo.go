@@ -1,9 +1,5 @@
 package cmd
 
-import (
-	"gopkg.in/yaml.v3"
-)
-
 // NodeType is the type of a node
 type NodeType uint8
 
@@ -62,11 +58,7 @@ func (t *Topology) AddLink(link *Link) {
 
 // YAML returns the topology as yaml
 func (t *Topology) YAML() []byte {
-	b, err := yaml.Marshal(t)
-	if err != nil {
-		return nil
-	}
-	return b
+	return NewYAMLTopology(t).YAML()
 }
 
 // NewTopology returns a new Topology
