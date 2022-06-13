@@ -11,6 +11,14 @@ type YAMLNode struct {
 	Type YAMLNodeType
 }
 
+// NewYAMLNode returns a new YAMLNode
+func NewYAMLNode(n *Node) *YAMLNode {
+	return &YAMLNode{
+		Name: n.Name,
+		Type: YAMLNodeType(n.Type.String()),
+	}
+}
+
 // YAMLLinkType is a yaml representation of a link type
 type YAMLLinkType string
 
@@ -19,6 +27,18 @@ type YAMLLink struct {
 	Name  string
 	Type  YAMLLinkType
 	Nodes [2]string
+}
+
+// NewYAMLLink returns a new YAMLLink
+func NewYAMLLink(l *Link) *YAMLLink {
+	return &YAMLLink{
+		Name: l.Name,
+		Type: YAMLLinkType(l.Type.String()),
+		Nodes: [2]string{
+			l.Nodes[0].Name,
+			l.Nodes[1].Name,
+		},
+	}
 }
 
 // YAMLTopology is a yaml representation of a topology
@@ -38,6 +58,24 @@ func (t *YAMLTopology) YAML() []byte {
 }
 
 // NewYAMLTopology returns a new YAMLTopology
-func NewYAMLTopology() *YAMLTopology {
-	return &YAMLTopology{}
+func NewYAMLTopology(t *Topology) *YAMLTopology {
+	yt := &YAMLTopology{}
+	if t == nil {
+		return yt
+	}
+
+	// set name
+	yt.Name = t.Name
+
+	// set nodes
+	for _, n := range t.Nodes {
+		yt.Nodes = append(yt.Nodes, NewYAMLNode(n))
+	}
+
+	// set links
+	for _, l := range t.Links {
+		yt.Links = append(yt.Links, NewYAMLLink(l))
+	}
+
+	return yt
 }
