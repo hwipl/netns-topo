@@ -26,6 +26,11 @@ func NewNode() *Node {
 // LinkType is the type of a link
 type LinkType uint8
 
+// String returns the link type as string
+func (lt *LinkType) String() string {
+	return ""
+}
+
 // Link is a link between nodes in a topology
 type Link struct {
 	Name  string
