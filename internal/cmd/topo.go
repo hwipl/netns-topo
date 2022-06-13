@@ -7,6 +7,11 @@ import (
 // NodeType is the type of a node
 type NodeType uint8
 
+// String returns the node type as string
+func (nt *NodeType) String() string {
+	return ""
+}
+
 // Node is a node in a topology
 type Node struct {
 	Name string
