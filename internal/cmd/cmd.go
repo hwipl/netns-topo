@@ -10,12 +10,15 @@ func Run() {
 	topo := NewTopology()
 
 	node1 := NewNode()
+	node1.Name = "Node1"
 	node1.Type = NodeTypeNode
 
 	node2 := NewNode()
+	node2.Name = "Node2"
 	node2.Type = NodeTypeNode
 
 	node3 := NewNode()
+	node3.Name = "Node3"
 	node3.Type = NodeTypeNode
 
 	topo.AddNode(node1)
