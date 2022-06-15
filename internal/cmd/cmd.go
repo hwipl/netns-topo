@@ -26,9 +26,11 @@ func Run() {
 	topo.AddNode(node3)
 
 	link1 := NewLink()
+	link1.Type = LinkTypeVeth
 	link1.Name = "Link1"
 
 	link2 := NewLink()
+	link2.Type = LinkTypeVeth
 	link2.Name = "Link2"
 
 	link1.Nodes[0] = node1

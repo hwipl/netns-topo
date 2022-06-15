@@ -34,8 +34,17 @@ func NewNode() *Node {
 // LinkType is the type of a link
 type LinkType uint8
 
+// Link types
+const (
+	LinkTypeVeth LinkType = iota
+)
+
 // String returns the link type as string
 func (lt *LinkType) String() string {
+	switch *lt {
+	case LinkTypeVeth:
+		return "veth"
+	}
 	return ""
 }
 
