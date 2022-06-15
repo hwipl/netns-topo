@@ -3,8 +3,20 @@ package cmd
 // NodeType is the type of a node
 type NodeType uint8
 
+// Node types
+const (
+	NodeTypeNode NodeType = iota
+	NodeTypeBridge
+)
+
 // String returns the node type as string
 func (nt *NodeType) String() string {
+	switch *nt {
+	case NodeTypeNode:
+		return "node"
+	case NodeTypeBridge:
+		return "bridge"
+	}
 	return ""
 }
 
