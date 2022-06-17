@@ -1,4 +1,4 @@
-package cmd
+package topo
 
 // NodeType is the type of a node
 type NodeType uint8

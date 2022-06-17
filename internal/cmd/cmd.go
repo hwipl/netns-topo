@@ -2,35 +2,37 @@ package cmd
 
 import (
 	"fmt"
+
+	"github.com/hwipl/netns-topo/internal/topo"
 )
 
 // Run is the main entry point
 func Run() {
 	// create dummy topology for testing
-	topo := NewTopology()
+	t := topo.NewTopology()
 
-	node1 := NewNode()
+	node1 := topo.NewNode()
 	node1.Name = "Node1"
-	node1.Type = NodeTypeNode
+	node1.Type = topo.NodeTypeNode
 
-	node2 := NewNode()
+	node2 := topo.NewNode()
 	node2.Name = "Node2"
-	node2.Type = NodeTypeNode
+	node2.Type = topo.NodeTypeNode
 
-	node3 := NewNode()
+	node3 := topo.NewNode()
 	node3.Name = "Node3"
-	node3.Type = NodeTypeNode
+	node3.Type = topo.NodeTypeNode
 
-	topo.AddNode(node1)
-	topo.AddNode(node2)
-	topo.AddNode(node3)
+	t.AddNode(node1)
+	t.AddNode(node2)
+	t.AddNode(node3)
 
-	link1 := NewLink()
-	link1.Type = LinkTypeVeth
+	link1 := topo.NewLink()
+	link1.Type = topo.LinkTypeVeth
 	link1.Name = "Link1"
 
-	link2 := NewLink()
-	link2.Type = LinkTypeVeth
+	link2 := topo.NewLink()
+	link2.Type = topo.LinkTypeVeth
 	link2.Name = "Link2"
 
 	link1.Nodes[0] = node1
@@ -39,9 +41,9 @@ func Run() {
 	link2.Nodes[0] = node2
 	link2.Nodes[1] = node3
 
-	topo.AddLink(link1)
-	topo.AddLink(link2)
+	t.AddLink(link1)
+	t.AddLink(link2)
 
 	// dump yaml of topology
-	fmt.Printf("%s", topo.YAML())
+	fmt.Printf("%s", t.YAML())
 }
