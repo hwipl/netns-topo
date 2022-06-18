@@ -1,6 +1,10 @@
 package topo
 
-import "gopkg.in/yaml.v3"
+import (
+	"log"
+
+	"gopkg.in/yaml.v3"
+)
 
 // YAMLNodeType is a yaml representation of a node type
 type YAMLNodeType string
@@ -17,6 +21,14 @@ func NewYAMLNode(n *Node) *YAMLNode {
 		Name: n.Name,
 		Type: YAMLNodeType(n.Type.String()),
 	}
+}
+
+// FromYAMLNode returns a new Node from yn
+func FromYAMLNode(yn *YAMLNode) *Node {
+	n := NewNode()
+	n.Name = yn.Name
+	// TODO: set type
+	return n
 }
 
 // YAMLLinkType is a yaml representation of a link type
@@ -41,6 +53,15 @@ func NewYAMLLink(l *Link) *YAMLLink {
 	}
 }
 
+// FromYAMLLink returns a new Link from yl
+func FromYAMLLink(yl *YAMLLink) *Link {
+	l := NewLink()
+	l.Name = yl.Name
+	// TODO: set type
+	// TODO: set nodes
+	return l
+}
+
 // YAMLTopology is a yaml representation of a topology
 type YAMLTopology struct {
 	Name  string
@@ -55,6 +76,33 @@ func (t *YAMLTopology) YAML() []byte {
 		return nil
 	}
 	return b
+}
+
+// ParseYAMLTopology parses and returns the yaml topology in b
+func ParseYAMLTopology(b []byte) *Topology {
+	yt := &YAMLTopology{}
+	err := yaml.Unmarshal(b, yt)
+	if err != nil {
+		log.Fatalf("cannot parse yaml topology: %v", err)
+	}
+
+	// create topology
+	t := NewTopology()
+
+	// set name
+	t.Name = yt.Name
+
+	// set nodes
+	for _, yn := range yt.Nodes {
+		t.Nodes = append(t.Nodes, FromYAMLNode(yn))
+	}
+
+	// set links
+	for _, yl := range yt.Links {
+		t.Links = append(t.Links, FromYAMLLink(yl))
+	}
+
+	return t
 }
 
 // NewYAMLTopology returns a new YAMLTopology

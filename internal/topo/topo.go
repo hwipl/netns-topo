@@ -86,3 +86,8 @@ func (t *Topology) YAML() []byte {
 func NewTopology() *Topology {
 	return &Topology{}
 }
+
+// NewTopologyYAML parses and returns the yaml topology in b
+func NewTopologyYAML(b []byte) *Topology {
+	return ParseYAMLTopology(b)
+}
