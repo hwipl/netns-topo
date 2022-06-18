@@ -10,6 +10,7 @@ import (
 func Run() {
 	// create dummy topology for testing
 	t := topo.NewTopology()
+	t.Name = "Topo1"
 
 	node1 := topo.NewNode()
 	node1.Name = "Node1"
