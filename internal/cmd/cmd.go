@@ -46,5 +46,10 @@ func Run() {
 	t.AddLink(link2)
 
 	// dump yaml of topology
-	fmt.Printf("%s", t.YAML())
+	b := t.YAML()
+	fmt.Printf("%s", b)
+
+	// parse yaml topology
+	t = topo.NewTopologyYAML(b)
+	fmt.Printf("%+v", t)
 }
