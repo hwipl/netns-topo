@@ -46,10 +46,30 @@ func Run() {
 	t.AddLink(link2)
 
 	// dump yaml of topology
+	fmt.Println("YAML Topology:")
 	b := t.YAML()
 	fmt.Printf("%s", b)
 
 	// parse yaml topology
 	t = topo.NewTopologyYAML(b)
-	fmt.Printf("%+v", t)
+
+	fmt.Println("Parsed Topology:")
+	fmt.Println("name:", t.Name)
+	fmt.Println("nodes:")
+	for _, n := range t.Nodes {
+		fmt.Println("  - name:", n.Name)
+		fmt.Println("    type:", &n.Type)
+	}
+	fmt.Println("links:")
+	for _, l := range t.Links {
+		fmt.Println("  - name:", l.Name)
+		fmt.Println("    type:", &l.Type)
+		fmt.Println("    nodes:")
+		for _, n := range l.Nodes {
+			if n == nil {
+				continue
+			}
+			fmt.Println("      -", n.Name)
+		}
+	}
 }
