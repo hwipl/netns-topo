@@ -23,14 +23,6 @@ func NewYAMLNode(n *Node) *YAMLNode {
 	}
 }
 
-// FromYAMLNode returns a new Node from yn
-func FromYAMLNode(yn *YAMLNode) *Node {
-	n := NewNode()
-	n.Name = yn.Name
-	// TODO: set type
-	return n
-}
-
 // YAMLLinkType is a yaml representation of a link type
 type YAMLLinkType string
 
@@ -51,15 +43,6 @@ func NewYAMLLink(l *Link) *YAMLLink {
 			l.Nodes[1].Name,
 		},
 	}
-}
-
-// FromYAMLLink returns a new Link from yl
-func FromYAMLLink(yl *YAMLLink) *Link {
-	l := NewLink()
-	l.Name = yl.Name
-	// TODO: set type
-	// TODO: set nodes
-	return l
 }
 
 // YAMLTopology is a yaml representation of a topology
@@ -94,12 +77,21 @@ func ParseYAMLTopology(b []byte) *Topology {
 
 	// set nodes
 	for _, yn := range yt.Nodes {
-		t.Nodes = append(t.Nodes, FromYAMLNode(yn))
+		n := NewNode()
+		n.Name = yn.Name
+		n.Type = ParseNodeType(string(yn.Type))
+		t.AddNode(n)
 	}
 
 	// set links
 	for _, yl := range yt.Links {
-		t.Links = append(t.Links, FromYAMLLink(yl))
+		l := NewLink()
+		l.Name = yl.Name
+		l.Type = ParseLinkType(string(yl.Type))
+		for i, yn := range yl.Nodes {
+			l.Nodes[i] = t.GetNode(yn)
+		}
+		t.AddLink(l)
 	}
 
 	return t
