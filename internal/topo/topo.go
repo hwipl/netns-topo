@@ -49,6 +49,7 @@ type LinkType uint8
 // Link types
 const (
 	LinkTypeVeth LinkType = iota
+	LinkTypeInvalid
 )
 
 // String returns the link type as string
@@ -58,6 +59,15 @@ func (lt *LinkType) String() string {
 		return "veth"
 	}
 	return ""
+}
+
+// ParseLinkType parses the link type in s
+func ParseLinkType(s string) LinkType {
+	switch s {
+	case "veth":
+		return LinkTypeVeth
+	}
+	return LinkTypeInvalid
 }
 
 // Link is a link between nodes in a topology
