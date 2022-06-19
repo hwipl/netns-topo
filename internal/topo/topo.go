@@ -7,6 +7,7 @@ type NodeType uint8
 const (
 	NodeTypeNode NodeType = iota
 	NodeTypeBridge
+	NodeTypeInvalid
 )
 
 // String returns the node type as string
@@ -18,6 +19,17 @@ func (nt *NodeType) String() string {
 		return "bridge"
 	}
 	return ""
+}
+
+// ParseNodeType parses the node type in s
+func ParseNodeType(s string) NodeType {
+	switch s {
+	case "node":
+		return NodeTypeNode
+	case "bridge":
+		return NodeTypeBridge
+	}
+	return NodeTypeInvalid
 }
 
 // Node is a node in a topology
