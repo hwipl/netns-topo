@@ -94,6 +94,16 @@ func (t *Topology) AddNode(node *Node) {
 	t.Nodes = append(t.Nodes, node)
 }
 
+// GetNode returns the first node with name
+func (t *Topology) GetNode(name string) *Node {
+	for _, n := range t.Nodes {
+		if n.Name == name {
+			return n
+		}
+	}
+	return nil
+}
+
 // AddLink adds a link to the topology
 func (t *Topology) AddLink(link *Link) {
 	t.Links = append(t.Links, link)
