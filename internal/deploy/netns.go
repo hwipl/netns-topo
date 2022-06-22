@@ -9,6 +9,10 @@ type Netns struct {
 func (n *Netns) Start() {
 }
 
+// Stop stops the network namespace
+func (n *Netns) Stop() {
+}
+
 // NewNetns returns a new network namespace
 func NewNetns() *Netns {
 	return &Netns{}

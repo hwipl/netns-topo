@@ -17,6 +17,9 @@ func (d *Deploy) Start() {
 
 // Stop stops the deployment
 func (d *Deploy) Stop() {
+	for _, ns := range d.ns {
+		ns.Stop()
+	}
 }
 
 // createNamespaces creates namespaces from t
