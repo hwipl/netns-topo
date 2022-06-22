@@ -4,7 +4,8 @@ import "github.com/hwipl/netns-topo/internal/topo"
 
 // Deploy is a deployment of a topology
 type Deploy struct {
-	t *topo.Topology
+	t  *topo.Topology
+	ns []*Netns
 }
 
 // Start starts the deployment
@@ -15,9 +16,20 @@ func (d *Deploy) Start() {
 func (d *Deploy) Stop() {
 }
 
+// createNamespaces creates namespaces from t
+func createNamespaces(t *topo.Topology) (namespaces []*Netns) {
+	for _, n := range t.Nodes {
+		ns := NewNetns()
+		ns.Name = n.Name
+		namespaces = append(namespaces, ns)
+	}
+	return
+}
+
 // NewDeploy returns a new deployment for t
 func NewDeploy(t *topo.Topology) *Deploy {
 	return &Deploy{
-		t: t,
+		t:  t,
+		ns: createNamespaces(t),
 	}
 }
