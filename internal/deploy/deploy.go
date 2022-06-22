@@ -10,6 +10,9 @@ type Deploy struct {
 
 // Start starts the deployment
 func (d *Deploy) Start() {
+	for _, ns := range d.ns {
+		ns.Start()
+	}
 }
 
 // Stop stops the deployment
