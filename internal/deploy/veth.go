@@ -9,6 +9,10 @@ type Veth struct {
 func (v *Veth) Start() {
 }
 
+// Stop stops the veth device
+func (v *Veth) Stop() {
+}
+
 // NewVeth returns a new veth device
 func NewVeth() *Veth {
 	return &Veth{}

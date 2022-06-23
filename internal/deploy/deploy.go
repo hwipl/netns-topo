@@ -21,6 +21,9 @@ func (d *Deploy) Start() {
 
 // Stop stops the deployment
 func (d *Deploy) Stop() {
+	for _, v := range d.veths {
+		v.Stop()
+	}
 	for _, ns := range d.ns {
 		ns.Stop()
 	}
