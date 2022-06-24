@@ -30,6 +30,13 @@ func (n *Netns) Start() {
 
 // Stop stops the network namespace
 func (n *Netns) Stop() {
+	name := fmt.Sprintf("%s%s", netnsPrefix, n.Name)
+	cmd := exec.Command("ip", "netns", "delete", name)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		log.Println(err)
+	}
 }
 
 // NewNetns returns a new network namespace
