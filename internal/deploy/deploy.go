@@ -1,6 +1,10 @@
 package deploy
 
-import "github.com/hwipl/netns-topo/internal/topo"
+import (
+	"fmt"
+
+	"github.com/hwipl/netns-topo/internal/topo"
+)
 
 // Deploy is a deployment of a topology
 type Deploy struct {
@@ -33,7 +37,7 @@ func (d *Deploy) Stop() {
 func createNamespaces(t *topo.Topology) (namespaces []*Netns) {
 	for _, n := range t.Nodes {
 		ns := NewNetns()
-		ns.Name = n.Name
+		ns.Name = fmt.Sprintf("%s-%s", t.Name, n.Name)
 		namespaces = append(namespaces, ns)
 	}
 	return
