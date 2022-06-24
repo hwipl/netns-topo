@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/hwipl/netns-topo/internal/deploy"
 	"github.com/hwipl/netns-topo/internal/topo"
 )
 
@@ -72,4 +73,9 @@ func Run() {
 			fmt.Println("      -", n.Name)
 		}
 	}
+
+	// deploy topology
+	d := deploy.NewDeploy(t)
+	d.Start()
+	defer d.Stop()
 }
