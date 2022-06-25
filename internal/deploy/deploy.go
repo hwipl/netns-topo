@@ -34,11 +34,11 @@ func (d *Deploy) Stop() {
 }
 
 // createNamespaces creates namespaces from t
-func createNamespaces(t *topo.Topology) (namespaces []*Netns) {
-	for _, n := range t.Nodes {
+func (d *Deploy) createNamespaces() {
+	for _, n := range d.t.Nodes {
 		ns := NewNetns()
-		ns.Name = fmt.Sprintf("%s-%s", t.Name, n.Name)
-		namespaces = append(namespaces, ns)
+		ns.Name = fmt.Sprintf("%s-%s", d.t.Name, n.Name)
+		d.ns = append(d.ns, ns)
 	}
 	return
 }
@@ -55,9 +55,10 @@ func createVeths(t *topo.Topology) (veths []*Veth) {
 
 // NewDeploy returns a new deployment for t
 func NewDeploy(t *topo.Topology) *Deploy {
-	return &Deploy{
+	d := &Deploy{
 		t:     t,
-		ns:    createNamespaces(t),
 		veths: createVeths(t),
 	}
+	d.createNamespaces()
+	return d
 }
