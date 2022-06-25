@@ -48,6 +48,8 @@ func (d *Deploy) createVeths() {
 	for _, l := range d.t.Links {
 		v := NewVeth()
 		v.Name = l.Name
+		v.Netns[0] = fmt.Sprintf("%s-%s", d.t.Name, l.Nodes[0].Name)
+		v.Netns[1] = fmt.Sprintf("%s-%s", d.t.Name, l.Nodes[1].Name)
 		d.veths = append(d.veths, v)
 	}
 	return

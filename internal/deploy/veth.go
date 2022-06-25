@@ -2,7 +2,8 @@ package deploy
 
 // Veth is a veth device
 type Veth struct {
-	Name string
+	Name  string
+	Netns [2]string
 }
 
 // Start starts the veth device
