@@ -33,11 +33,16 @@ func (d *Deploy) Stop() {
 	}
 }
 
+// netnsName creates a network namespace name from topology and node name
+func netnsName(topology, node string) string {
+	return fmt.Sprintf("%s-%s", topology, node)
+}
+
 // createNamespaces creates namespaces from t
 func (d *Deploy) createNamespaces() {
 	for _, n := range d.t.Nodes {
 		ns := NewNetns()
-		ns.Name = fmt.Sprintf("%s-%s", d.t.Name, n.Name)
+		ns.Name = netnsName(d.t.Name, n.Name)
 		d.ns = append(d.ns, ns)
 	}
 	return
@@ -48,8 +53,9 @@ func (d *Deploy) createVeths() {
 	for _, l := range d.t.Links {
 		v := NewVeth()
 		v.Name = l.Name
-		v.Netns[0] = fmt.Sprintf("%s-%s", d.t.Name, l.Nodes[0].Name)
-		v.Netns[1] = fmt.Sprintf("%s-%s", d.t.Name, l.Nodes[1].Name)
+		for i := range l.Nodes {
+			v.Netns[i] = netnsName(d.t.Name, l.Nodes[i].Name)
+		}
 		d.veths = append(d.veths, v)
 	}
 	return
