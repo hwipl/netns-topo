@@ -44,11 +44,11 @@ func (d *Deploy) createNamespaces() {
 }
 
 // createVeths create veths from t
-func createVeths(t *topo.Topology) (veths []*Veth) {
-	for _, l := range t.Links {
+func (d *Deploy) createVeths() {
+	for _, l := range d.t.Links {
 		v := NewVeth()
 		v.Name = l.Name
-		veths = append(veths, v)
+		d.veths = append(d.veths, v)
 	}
 	return
 }
@@ -56,9 +56,9 @@ func createVeths(t *topo.Topology) (veths []*Veth) {
 // NewDeploy returns a new deployment for t
 func NewDeploy(t *topo.Topology) *Deploy {
 	d := &Deploy{
-		t:     t,
-		veths: createVeths(t),
+		t: t,
 	}
 	d.createNamespaces()
+	d.createVeths()
 	return d
 }
