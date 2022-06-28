@@ -17,10 +17,14 @@ type Netns struct {
 	Name string
 }
 
+// netnsName creates a network namespace name from topology and node name
+func netnsName(topology, node string) string {
+	return fmt.Sprintf("%s%s-%s", netnsPrefix, topology, node)
+}
+
 // Start starts the network namespace
 func (n *Netns) Start() {
-	name := fmt.Sprintf("%s%s", netnsPrefix, n.Name)
-	cmd := exec.Command("ip", "netns", "add", name)
+	cmd := exec.Command("ip", "netns", "add", n.Name)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
@@ -30,8 +34,7 @@ func (n *Netns) Start() {
 
 // Stop stops the network namespace
 func (n *Netns) Stop() {
-	name := fmt.Sprintf("%s%s", netnsPrefix, n.Name)
-	cmd := exec.Command("ip", "netns", "delete", name)
+	cmd := exec.Command("ip", "netns", "delete", n.Name)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

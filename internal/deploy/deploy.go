@@ -1,8 +1,6 @@
 package deploy
 
 import (
-	"fmt"
-
 	"github.com/hwipl/netns-topo/internal/topo"
 )
 
@@ -31,11 +29,6 @@ func (d *Deploy) Stop() {
 	for _, ns := range d.ns {
 		ns.Stop()
 	}
-}
-
-// netnsName creates a network namespace name from topology and node name
-func netnsName(topology, node string) string {
-	return fmt.Sprintf("%s-%s", topology, node)
 }
 
 // createNamespaces creates namespaces from t
