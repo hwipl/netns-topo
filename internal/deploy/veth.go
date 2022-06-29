@@ -46,6 +46,9 @@ func (v *Veth) Start() {
 
 // Stop stops the veth device
 func (v *Veth) Stop() {
+	// delete veth devices
+	runIP("netns", "exec", v.Netns[0], "ip", "link", "delete", v.Name,
+		"type", "veth")
 }
 
 // NewVeth returns a new veth device
