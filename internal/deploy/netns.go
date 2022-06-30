@@ -2,9 +2,6 @@ package deploy
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"os/exec"
 )
 
 const (
@@ -24,22 +21,12 @@ func netnsName(topology, node string) string {
 
 // Start starts the network namespace
 func (n *Netns) Start() {
-	cmd := exec.Command("ip", "netns", "add", n.Name)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		log.Println(err)
-	}
+	runIP("netns", "add", n.Name)
 }
 
 // Stop stops the network namespace
 func (n *Netns) Stop() {
-	cmd := exec.Command("ip", "netns", "delete", n.Name)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		log.Println(err)
-	}
+	runIP("netns", "delete", n.Name)
 }
 
 // NewNetns returns a new network namespace
