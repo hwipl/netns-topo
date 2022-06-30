@@ -1,11 +1,5 @@
 package deploy
 
-import (
-	"log"
-	"os"
-	"os/exec"
-)
-
 const (
 	tempVeth1 = "netnstopoveth0"
 	tempVeth2 = "netnstopoveth1"
@@ -15,16 +9,6 @@ const (
 type Veth struct {
 	Name  string
 	Netns [2]string
-}
-
-// runIP runs the ip command with the parameters params
-func runIP(params ...string) {
-	cmd := exec.Command("ip", params...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		log.Println(err)
-	}
 }
 
 // Start starts the veth device
