@@ -86,6 +86,12 @@ type Link struct {
 	Nodes [2]*Node
 }
 
+// String returns the link as string
+func (l *Link) String() string {
+	return fmt.Sprintf("{Name: %s, Type: %s, Nodes: %s}", l.Name, &l.Type,
+		l.Nodes)
+}
+
 // NewLink returns a new Link
 func NewLink() *Link {
 	return &Link{}
