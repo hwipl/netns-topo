@@ -104,6 +104,12 @@ type Topology struct {
 	Links []*Link
 }
 
+// String returns the topology as string
+func (t *Topology) String() string {
+	return fmt.Sprintf("{Name: %s, Nodes: %s, Links: %s}", t.Name, t.Nodes,
+		t.Links)
+}
+
 // AddNode adds a node to the topology
 func (t *Topology) AddNode(node *Node) {
 	t.Nodes = append(t.Nodes, node)
