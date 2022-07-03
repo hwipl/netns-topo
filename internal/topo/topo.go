@@ -1,5 +1,9 @@
 package topo
 
+import (
+	"fmt"
+)
+
 // NodeType is the type of a node
 type NodeType uint8
 
@@ -36,6 +40,11 @@ func ParseNodeType(s string) NodeType {
 type Node struct {
 	Name string
 	Type NodeType
+}
+
+// String returns the node as string
+func (n *Node) String() string {
+	return fmt.Sprintf("{Name: %s, Type: %s}", n.Name, &n.Type)
 }
 
 // NewNode returns a new Node
