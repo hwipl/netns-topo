@@ -55,6 +55,7 @@ func TestAll(_ *testing.T) {
 	// parse yaml topology
 	t = topo.NewTopologyYAML(b)
 
+	fmt.Println(t)
 	fmt.Println("Parsed Topology:")
 	fmt.Println("name:", t.Name)
 	fmt.Println("nodes:")
