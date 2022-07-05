@@ -16,6 +16,9 @@ const (
 
 // String returns the node type as string
 func (nt *NodeType) String() string {
+	if nt == nil {
+		return ""
+	}
 	switch *nt {
 	case NodeTypeNode:
 		return "node"
