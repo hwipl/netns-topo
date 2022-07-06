@@ -8,8 +8,8 @@ import (
 func TestNodeTypeString(t *testing.T) {
 	// test nil
 	var none *NodeType
-	if none.String() != "" {
-		t.Errorf("got %s, want \"\"", none.String())
+	if none.String() != "<nil>" {
+		t.Errorf("got %s, want <nil>", none.String())
 	}
 
 	// test types
