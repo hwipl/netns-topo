@@ -26,3 +26,21 @@ func TestNodeTypeString(t *testing.T) {
 		}
 	}
 }
+
+// TestNodeString tests String of Node
+func TestNodeString(t *testing.T) {
+	// test nil
+	var none *Node
+	if none.String() != "<nil>" {
+		t.Errorf("got %s, want \"\"", none.String())
+	}
+
+	// test node
+	node := NewNode()
+	node.Name = "mynode"
+	want := "{Name: mynode, Type: node}"
+	got := node.String()
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
