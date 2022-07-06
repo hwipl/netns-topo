@@ -47,6 +47,9 @@ type Node struct {
 
 // String returns the node as string
 func (n *Node) String() string {
+	if n == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Name: %s, Type: %s}", n.Name, &n.Type)
 }
 
