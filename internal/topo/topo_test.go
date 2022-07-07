@@ -44,3 +44,25 @@ func TestNodeString(t *testing.T) {
 		t.Errorf("got %s, want %s", got, want)
 	}
 }
+
+// TestLinkTypeString tests String of LinkType
+func TestLinkTypeString(t *testing.T) {
+	// test nil
+	var none *LinkType
+	if none.String() != "<nil>" {
+		t.Errorf("got %s, want \"\"", none.String())
+	}
+
+	// test types
+	types := map[LinkType]string{
+		LinkTypeVeth:    "veth",
+		LinkTypeInvalid: "",
+		123:             "",
+	}
+	for lt, v := range types {
+		s := lt.String()
+		if s != v {
+			t.Errorf("got %s, want %s", s, v)
+		}
+	}
+}
