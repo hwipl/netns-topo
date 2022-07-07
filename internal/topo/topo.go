@@ -69,6 +69,9 @@ const (
 
 // String returns the link type as string
 func (lt *LinkType) String() string {
+	if lt == nil {
+		return "<nil>"
+	}
 	switch *lt {
 	case LinkTypeVeth:
 		return "veth"
