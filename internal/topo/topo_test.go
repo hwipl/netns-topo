@@ -32,7 +32,7 @@ func TestNodeString(t *testing.T) {
 	// test nil
 	var none *Node
 	if none.String() != "<nil>" {
-		t.Errorf("got %s, want \"\"", none.String())
+		t.Errorf("got %s, want <nil>", none.String())
 	}
 
 	// test node
@@ -50,7 +50,7 @@ func TestLinkTypeString(t *testing.T) {
 	// test nil
 	var none *LinkType
 	if none.String() != "<nil>" {
-		t.Errorf("got %s, want \"\"", none.String())
+		t.Errorf("got %s, want <nil>", none.String())
 	}
 
 	// test types
@@ -72,7 +72,7 @@ func TestLinkString(t *testing.T) {
 	// test nil
 	var none *Link
 	if none.String() != "<nil>" {
-		t.Errorf("got %s, want \"\"", none.String())
+		t.Errorf("got %s, want <nil>", none.String())
 	}
 
 	// test link
