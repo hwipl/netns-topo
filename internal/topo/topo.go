@@ -97,6 +97,9 @@ type Link struct {
 
 // String returns the link as string
 func (l *Link) String() string {
+	if l == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Name: %s, Type: %s, Nodes: %s}", l.Name, &l.Type,
 		l.Nodes)
 }
