@@ -66,3 +66,21 @@ func TestLinkTypeString(t *testing.T) {
 		}
 	}
 }
+
+// TestLinkString tests String of Link
+func TestLinkString(t *testing.T) {
+	// test nil
+	var none *Link
+	if none.String() != "<nil>" {
+		t.Errorf("got %s, want \"\"", none.String())
+	}
+
+	// test link
+	link := NewLink()
+	link.Name = "mylink"
+	want := "{Name: mylink, Type: veth, Nodes: [<nil> <nil>]}"
+	got := link.String()
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
