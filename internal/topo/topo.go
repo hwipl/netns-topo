@@ -118,6 +118,9 @@ type Topology struct {
 
 // String returns the topology as string
 func (t *Topology) String() string {
+	if t == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Name: %s, Nodes: %s, Links: %s}", t.Name, t.Nodes,
 		t.Links)
 }
