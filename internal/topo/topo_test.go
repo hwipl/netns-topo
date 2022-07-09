@@ -84,3 +84,21 @@ func TestLinkString(t *testing.T) {
 		t.Errorf("got %s, want %s", got, want)
 	}
 }
+
+// TestTopologyString tests String of Topology
+func TestTopologyString(t *testing.T) {
+	// test nil
+	var none *Topology
+	if none.String() != "<nil>" {
+		t.Errorf("got %s, want <nil>", none.String())
+	}
+
+	// test topology
+	topology := NewTopology()
+	topology.Name = "mytopology"
+	want := "{Name: mytopology, Nodes: [], Links: []}"
+	got := topology.String()
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
