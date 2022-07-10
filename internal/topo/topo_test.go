@@ -102,3 +102,38 @@ func TestTopologyString(t *testing.T) {
 		t.Errorf("got %s, want %s", got, want)
 	}
 }
+
+// TestTopologyAddNode tests AddNode of Topology
+func TestTopologyAddNode(t *testing.T) {
+	topology := NewTopology()
+	num := 0
+
+	// add nil
+	topology.AddNode(nil)
+	num = len(topology.Nodes)
+	if num != 0 {
+		t.Errorf("got %d want 0", num)
+	}
+
+	// add node
+	node1 := NewNode()
+	topology.AddNode(node1)
+	num = len(topology.Nodes)
+	if num != 1 {
+		t.Errorf("got %d want 1", num)
+	}
+	if topology.Nodes[0] != node1 {
+		t.Errorf("got %p, want %p", topology.Nodes[0], node1)
+	}
+
+	// add node
+	node2 := NewNode()
+	topology.AddNode(node2)
+	num = len(topology.Nodes)
+	if num != 2 {
+		t.Errorf("got %d want 2", num)
+	}
+	if topology.Nodes[1] != node2 {
+		t.Errorf("got %p, want %p", topology.Nodes[1], node2)
+	}
+}
