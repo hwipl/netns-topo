@@ -127,6 +127,9 @@ func (t *Topology) String() string {
 
 // AddNode adds a node to the topology
 func (t *Topology) AddNode(node *Node) {
+	if node == nil {
+		return
+	}
 	t.Nodes = append(t.Nodes, node)
 }
 
