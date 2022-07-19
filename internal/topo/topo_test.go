@@ -45,6 +45,30 @@ func TestNodeString(t *testing.T) {
 	}
 }
 
+// TestParseNodeType tests ParseNodeType
+func TestParseNodeType(t *testing.T) {
+	// test node
+	want := NodeTypeNode
+	got := ParseNodeType("node")
+	if got != want {
+		t.Errorf("got %s, want %s", &got, &want)
+	}
+
+	// test bridge
+	want = NodeTypeBridge
+	got = ParseNodeType("bridge")
+	if got != want {
+		t.Errorf("got %s, want %s", &got, &want)
+	}
+
+	// test invalid
+	want = NodeTypeInvalid
+	got = ParseNodeType("does not exist")
+	if got != want {
+		t.Errorf("got %s, want %s", &got, &want)
+	}
+}
+
 // TestLinkTypeString tests String of LinkType
 func TestLinkTypeString(t *testing.T) {
 	// test nil
