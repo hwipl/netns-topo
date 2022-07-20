@@ -109,6 +109,23 @@ func TestLinkString(t *testing.T) {
 	}
 }
 
+// TestParseLinkType tests ParseLinkType
+func TestParseLinkType(t *testing.T) {
+	// test veth
+	want := LinkTypeVeth
+	got := ParseLinkType("veth")
+	if got != want {
+		t.Errorf("got %s, want %s", &got, &want)
+	}
+
+	// test invalid
+	want = LinkTypeInvalid
+	got = ParseLinkType("does not exist")
+	if got != want {
+		t.Errorf("got %s, want %s", &got, &want)
+	}
+}
+
 // TestTopologyString tests String of Topology
 func TestTopologyString(t *testing.T) {
 	// test nil
