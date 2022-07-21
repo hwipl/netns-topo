@@ -178,3 +178,30 @@ func TestTopologyAddNode(t *testing.T) {
 		t.Errorf("got %p, want %p", topology.Nodes[1], node2)
 	}
 }
+
+// TestTopologyGetNode tests GetNode of Topology
+func TestTopologyGetNode(t *testing.T) {
+	topology := NewTopology()
+
+	// test empty
+	if topology.GetNode("does not exist") != nil {
+		t.Errorf("got != nil, want nil")
+	}
+
+	// add node
+	node := NewNode()
+	name := "Node1"
+	node.Name = name
+	topology.AddNode(node)
+
+	// test nonexistent
+	if topology.GetNode("does not exist") != nil {
+		t.Errorf("got != nil, want nil")
+	}
+
+	// test existent
+	n := topology.GetNode(name)
+	if n != node {
+		t.Errorf("got %p, want %p", n, node)
+	}
+}
