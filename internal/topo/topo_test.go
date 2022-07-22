@@ -205,3 +205,38 @@ func TestTopologyGetNode(t *testing.T) {
 		t.Errorf("got %p, want %p", n, node)
 	}
 }
+
+// TestTopologyAddLink tests AddLink of Topology
+func TestTopologyAddLink(t *testing.T) {
+	topology := NewTopology()
+	num := 0
+
+	// add nil
+	topology.AddLink(nil)
+	num = len(topology.Links)
+	if num != 0 {
+		t.Errorf("got %d want 0", num)
+	}
+
+	// add link
+	link1 := NewLink()
+	topology.AddLink(link1)
+	num = len(topology.Links)
+	if num != 1 {
+		t.Errorf("got %d want 1", num)
+	}
+	if topology.Links[0] != link1 {
+		t.Errorf("got %p, want %p", topology.Links[0], link1)
+	}
+
+	// add link
+	link2 := NewLink()
+	topology.AddLink(link2)
+	num = len(topology.Links)
+	if num != 2 {
+		t.Errorf("got %d want 2", num)
+	}
+	if topology.Links[1] != link2 {
+		t.Errorf("got %p, want %p", topology.Links[1], link2)
+	}
+}
