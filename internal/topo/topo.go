@@ -145,6 +145,9 @@ func (t *Topology) GetNode(name string) *Node {
 
 // AddLink adds a link to the topology
 func (t *Topology) AddLink(link *Link) {
+	if link == nil {
+		return
+	}
 	t.Links = append(t.Links, link)
 }
 
