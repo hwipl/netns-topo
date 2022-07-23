@@ -1,6 +1,7 @@
 package topo
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -238,5 +239,33 @@ func TestTopologyAddLink(t *testing.T) {
 	}
 	if topology.Links[1] != link2 {
 		t.Errorf("got %p, want %p", topology.Links[1], link2)
+	}
+}
+
+// TestTopologyYAML tests YAML of Topology
+func TestTopologyYAML(t *testing.T) {
+	// test empty
+	want := NewTopology()
+	got := NewTopologyYAML(want.YAML())
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %s, want %s", got, want)
+	}
+
+	// test filled
+	want = NewTopology()
+
+	node1 := NewNode()
+	node2 := NewNode()
+	want.AddNode(node1)
+	want.AddNode(node2)
+
+	link := NewLink()
+	link.Nodes[0] = node1
+	link.Nodes[1] = node2
+	want.AddLink(link)
+
+	got = NewTopologyYAML(want.YAML())
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %s, want %s", got, want)
 	}
 }
