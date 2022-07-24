@@ -269,3 +269,11 @@ func TestTopologyYAML(t *testing.T) {
 		t.Errorf("got %s, want %s", got, want)
 	}
 }
+
+// TestNewTopology tests NewTopology
+func TestNewTopology(t *testing.T) {
+	topology := NewTopology()
+	if topology == nil {
+		t.Errorf("got nil, want != nil")
+	}
+}
