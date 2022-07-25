@@ -277,3 +277,42 @@ func TestNewTopology(t *testing.T) {
 		t.Errorf("got nil, want != nil")
 	}
 }
+
+// TestNewTopologyYAML tests NewTopologyYAML
+func TestNewTopologyYAML(t *testing.T) {
+	// test nil
+	topology := NewTopologyYAML(nil)
+	if topology == nil {
+		t.Errorf("got nil, want != nil")
+	}
+
+	// test empty
+	topology = NewTopologyYAML([]byte{})
+	if topology == nil {
+		t.Errorf("got nil, want != nil")
+	}
+
+	// test empty topology
+	topology = NewTopologyYAML(NewTopology().YAML())
+	if topology == nil {
+		t.Errorf("got nil, want != nil")
+	}
+
+	// test filled topology
+	want := NewTopology()
+
+	node1 := NewNode()
+	node2 := NewNode()
+	want.AddNode(node1)
+	want.AddNode(node2)
+
+	link := NewLink()
+	link.Nodes[0] = node1
+	link.Nodes[1] = node2
+	want.AddLink(link)
+
+	got := NewTopologyYAML(want.YAML())
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
