@@ -15,3 +15,10 @@ func runIP(params ...string) {
 		log.Println(err)
 	}
 }
+
+// runNetnsIP runs the ip command in netns with the parameters params
+func runNetnsIP(netns string, params ...string) {
+	p := []string{"netns", "exec", netns, "ip"}
+	p = append(p, params...)
+	runIP(p...)
+}

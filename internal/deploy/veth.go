@@ -22,17 +22,14 @@ func (v *Veth) Start() {
 	runIP("link", "set", tempVeth2, "netns", v.Netns[1])
 
 	// rename temporary veth devices
-	runIP("netns", "exec", v.Netns[0], "ip", "link", "set", tempVeth1,
-		"name", v.Name)
-	runIP("netns", "exec", v.Netns[1], "ip", "link", "set", tempVeth2,
-		"name", v.Name)
+	runNetnsIP(v.Netns[0], "link", "set", tempVeth1, "name", v.Name)
+	runNetnsIP(v.Netns[1], "link", "set", tempVeth2, "name", v.Name)
 }
 
 // Stop stops the veth device
 func (v *Veth) Stop() {
 	// delete veth devices
-	runIP("netns", "exec", v.Netns[0], "ip", "link", "delete", v.Name,
-		"type", "veth")
+	runNetnsIP(v.Netns[0], "link", "delete", v.Name, "type", "veth")
 }
 
 // NewVeth returns a new veth device
