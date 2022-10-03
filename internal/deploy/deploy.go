@@ -41,7 +41,7 @@ func (d *Deploy) createNamespaces() {
 	return
 }
 
-// createVeths create veths from t
+// createVeths creates veths from t
 func (d *Deploy) createVeths() {
 	for _, l := range d.t.Links {
 		v := NewVeth()
