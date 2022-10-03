@@ -38,7 +38,6 @@ func (d *Deploy) createNamespaces() {
 		ns.Name = netnsName(d.t.Name, n.Name)
 		d.ns = append(d.ns, ns)
 	}
-	return
 }
 
 // createVeths creates veths from t
@@ -51,7 +50,6 @@ func (d *Deploy) createVeths() {
 		}
 		d.veths = append(d.veths, v)
 	}
-	return
 }
 
 // NewDeploy returns a new deployment for t
