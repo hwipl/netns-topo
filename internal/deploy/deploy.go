@@ -6,9 +6,10 @@ import (
 
 // Deploy is a deployment of a topology
 type Deploy struct {
-	t     *topo.Topology
-	ns    []*Netns
-	veths []*Veth
+	t       *topo.Topology
+	ns      []*Netns
+	veths   []*Veth
+	bridges []*Bridge
 }
 
 // Start starts the deployment
@@ -19,10 +20,16 @@ func (d *Deploy) Start() {
 	for _, v := range d.veths {
 		v.Start()
 	}
+	for _, b := range d.bridges {
+		b.Start()
+	}
 }
 
 // Stop stops the deployment
 func (d *Deploy) Stop() {
+	for _, b := range d.bridges {
+		b.Stop()
+	}
 	for _, v := range d.veths {
 		v.Stop()
 	}
@@ -52,6 +59,29 @@ func (d *Deploy) createVeths() {
 	}
 }
 
+// getNetnsVeths returns the veths in netns
+func (d *Deploy) getNetnsVeths(netns string) []string {
+	veths := []string{}
+	for _, v := range d.veths {
+		if v.Netns[0] == netns || v.Netns[1] == netns {
+			veths = append(veths, v.Name)
+		}
+	}
+	return veths
+}
+
+// createBridges creates bridges from t
+func (d *Deploy) createBridges() {
+	for _, n := range d.t.Nodes {
+		if n.Type == topo.NodeTypeBridge {
+			br := NewBridge()
+			br.Netns = netnsName(d.t.Name, n.Name)
+			br.Veths = d.getNetnsVeths(br.Netns)
+			d.bridges = append(d.bridges, br)
+		}
+	}
+}
+
 // NewDeploy returns a new deployment for t
 func NewDeploy(t *topo.Topology) *Deploy {
 	d := &Deploy{
@@ -59,5 +89,6 @@ func NewDeploy(t *topo.Topology) *Deploy {
 	}
 	d.createNamespaces()
 	d.createVeths()
+	d.createBridges()
 	return d
 }
