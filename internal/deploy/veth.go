@@ -9,6 +9,7 @@ const (
 type Veth struct {
 	Name  string
 	Netns [2]string
+	MACs  [2]string
 }
 
 // Start starts the veth device
@@ -24,6 +25,14 @@ func (v *Veth) Start() {
 	// rename temporary veth devices
 	runNetnsIP(v.Netns[0], "link", "set", tempVeth1, "name", v.Name)
 	runNetnsIP(v.Netns[1], "link", "set", tempVeth2, "name", v.Name)
+
+	// set MAC addresses of veth devices
+	for i, mac := range v.MACs {
+		if mac == "" {
+			continue
+		}
+		runNetnsIP(v.Netns[i], "link", "set", v.Name, "address", mac)
+	}
 }
 
 // Stop stops the veth device

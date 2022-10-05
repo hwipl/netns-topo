@@ -55,6 +55,9 @@ func (d *Deploy) createVeths() {
 		for i := range l.Nodes {
 			v.Netns[i] = netnsName(d.t.Name, l.Nodes[i].Name)
 		}
+		for i, mac := range l.MACs {
+			v.MACs[i] = mac
+		}
 		d.veths = append(d.veths, v)
 	}
 }

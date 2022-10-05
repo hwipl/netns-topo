@@ -93,6 +93,7 @@ type Link struct {
 	Name  string
 	Type  LinkType
 	Nodes [2]*Node
+	MACs  [2]string
 }
 
 // String returns the link as string

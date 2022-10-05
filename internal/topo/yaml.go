@@ -31,6 +31,7 @@ type YAMLLink struct {
 	Name  string
 	Type  YAMLLinkType
 	Nodes [2]string
+	MACs  [2]string
 }
 
 // NewYAMLLink returns a new YAMLLink
@@ -41,6 +42,10 @@ func NewYAMLLink(l *Link) *YAMLLink {
 		Nodes: [2]string{
 			l.Nodes[0].Name,
 			l.Nodes[1].Name,
+		},
+		MACs: [2]string{
+			l.MACs[0],
+			l.MACs[1],
 		},
 	}
 }
@@ -90,6 +95,9 @@ func ParseYAMLTopology(b []byte) *Topology {
 		l.Type = ParseLinkType(string(yl.Type))
 		for i, yn := range yl.Nodes {
 			l.Nodes[i] = t.GetNode(yn)
+		}
+		for i, ym := range yl.MACs {
+			l.MACs[i] = ym
 		}
 		t.AddLink(l)
 	}
