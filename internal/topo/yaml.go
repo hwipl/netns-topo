@@ -32,6 +32,7 @@ type YAMLLink struct {
 	Type  YAMLLinkType
 	Nodes [2]string
 	MACs  [2]string
+	IPs   [2]string
 }
 
 // NewYAMLLink returns a new YAMLLink
@@ -46,6 +47,10 @@ func NewYAMLLink(l *Link) *YAMLLink {
 		MACs: [2]string{
 			l.MACs[0],
 			l.MACs[1],
+		},
+		IPs: [2]string{
+			l.IPs[0],
+			l.IPs[1],
 		},
 	}
 }
@@ -98,6 +103,9 @@ func ParseYAMLTopology(b []byte) *Topology {
 		}
 		for i, ym := range yl.MACs {
 			l.MACs[i] = ym
+		}
+		for i, yi := range yl.IPs {
+			l.IPs[i] = yi
 		}
 		t.AddLink(l)
 	}

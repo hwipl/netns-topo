@@ -10,6 +10,7 @@ type Veth struct {
 	Name  string
 	Netns [2]string
 	MACs  [2]string
+	IPs   [2]string
 }
 
 // Start starts the veth device
@@ -32,6 +33,14 @@ func (v *Veth) Start() {
 			continue
 		}
 		runNetnsIP(v.Netns[i], "link", "set", v.Name, "address", mac)
+	}
+
+	// set IP addresses of veth devices
+	for i, ip := range v.IPs {
+		if ip == "" {
+			continue
+		}
+		runNetnsIP(v.Netns[i], "address", "add", ip, "dev", v.Name)
 	}
 }
 

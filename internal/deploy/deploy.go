@@ -58,6 +58,9 @@ func (d *Deploy) createVeths() {
 		for i, mac := range l.MACs {
 			v.MACs[i] = mac
 		}
+		for i, ip := range l.IPs {
+			v.IPs[i] = ip
+		}
 		d.veths = append(d.veths, v)
 	}
 }
