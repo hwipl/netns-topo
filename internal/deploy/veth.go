@@ -42,6 +42,10 @@ func (v *Veth) Start() {
 		}
 		runNetnsIP(v.Netns[i], "address", "add", ip, "dev", v.Name)
 	}
+
+	// set veth devices up
+	runNetnsIP(v.Netns[0], "link", "set", v.Name, "up")
+	runNetnsIP(v.Netns[1], "link", "set", v.Name, "up")
 }
 
 // Stop stops the veth device
