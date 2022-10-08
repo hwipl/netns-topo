@@ -16,9 +16,16 @@ func runIP(params ...string) {
 	}
 }
 
-// runNetnsIP runs the ip command in netns with the parameters params
-func runNetnsIP(netns string, params ...string) {
-	p := []string{"netns", "exec", netns, "ip"}
+// runNetns runs the command and its parameters in params in netns
+func runNetns(netns string, params ...string) {
+	p := []string{"netns", "exec", netns}
 	p = append(p, params...)
 	runIP(p...)
+}
+
+// runNetnsIP runs the ip command in netns with the parameters params
+func runNetnsIP(netns string, params ...string) {
+	p := []string{"ip"}
+	p = append(p, params...)
+	runNetns(netns, p...)
 }
