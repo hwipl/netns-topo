@@ -11,6 +11,7 @@ type NodeType uint8
 const (
 	NodeTypeNode NodeType = iota
 	NodeTypeBridge
+	NodeTypeRouter
 	NodeTypeInvalid
 )
 
@@ -24,6 +25,8 @@ func (nt *NodeType) String() string {
 		return "node"
 	case NodeTypeBridge:
 		return "bridge"
+	case NodeTypeRouter:
+		return "router"
 	}
 	return ""
 }
@@ -35,6 +38,8 @@ func ParseNodeType(s string) NodeType {
 		return NodeTypeNode
 	case "bridge":
 		return NodeTypeBridge
+	case "router":
+		return NodeTypeRouter
 	}
 	return NodeTypeInvalid
 }

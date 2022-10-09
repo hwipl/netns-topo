@@ -10,6 +10,7 @@ type Deploy struct {
 	ns      []*Netns
 	veths   []*Veth
 	bridges []*Bridge
+	routers []*Router
 }
 
 // Start starts the deployment
@@ -23,10 +24,16 @@ func (d *Deploy) Start() {
 	for _, b := range d.bridges {
 		b.Start()
 	}
+	for _, r := range d.routers {
+		r.Start()
+	}
 }
 
 // Stop stops the deployment
 func (d *Deploy) Stop() {
+	for _, r := range d.routers {
+		r.Stop()
+	}
 	for _, b := range d.bridges {
 		b.Stop()
 	}
@@ -88,6 +95,17 @@ func (d *Deploy) createBridges() {
 	}
 }
 
+// createRouters creates routers from t
+func (d *Deploy) createRouters() {
+	for _, n := range d.t.Nodes {
+		if n.Type == topo.NodeTypeRouter {
+			r := NewRouter()
+			r.Netns = netnsName(d.t.Name, n.Name)
+			d.routers = append(d.routers, r)
+		}
+	}
+}
+
 // NewDeploy returns a new deployment for t
 func NewDeploy(t *topo.Topology) *Deploy {
 	d := &Deploy{
@@ -96,5 +114,6 @@ func NewDeploy(t *topo.Topology) *Deploy {
 	d.createNamespaces()
 	d.createVeths()
 	d.createBridges()
+	d.createRouters()
 	return d
 }
