@@ -8,8 +8,8 @@ type Router struct {
 // Start starts the router
 func (r *Router) Start() {
 	// set ip forwarding on devices
-	runNetns(r.Netns, "sysctl", "-w", "net.ipv4.conf.all.forwarding=1")
-	runNetns(r.Netns, "sysctl", "-w", "net.ipv6.conf.all.forwarding=1")
+	runNetns(r.Netns, "sysctl", "-q", "-w", "net.ipv4.conf.all.forwarding=1")
+	runNetns(r.Netns, "sysctl", "-q", "-w", "net.ipv6.conf.all.forwarding=1")
 }
 
 // Stop stops the router
