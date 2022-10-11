@@ -13,6 +13,7 @@ type YAMLNodeType string
 type YAMLNode struct {
 	Name string
 	Type YAMLNodeType
+	Run  []string
 }
 
 // NewYAMLNode returns a new YAMLNode
@@ -20,6 +21,7 @@ func NewYAMLNode(n *Node) *YAMLNode {
 	return &YAMLNode{
 		Name: n.Name,
 		Type: YAMLNodeType(n.Type.String()),
+		Run:  n.Run,
 	}
 }
 
@@ -90,6 +92,7 @@ func ParseYAMLTopology(b []byte) *Topology {
 		n := NewNode()
 		n.Name = yn.Name
 		n.Type = ParseNodeType(string(yn.Type))
+		n.Run = yn.Run
 		t.AddNode(n)
 	}
 

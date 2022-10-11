@@ -48,6 +48,7 @@ func ParseNodeType(s string) NodeType {
 type Node struct {
 	Name string
 	Type NodeType
+	Run  []string
 }
 
 // String returns the node as string
