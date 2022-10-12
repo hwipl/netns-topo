@@ -57,11 +57,26 @@ func NewYAMLLink(l *Link) *YAMLLink {
 	}
 }
 
+// YAMLRun is a yaml representation of commands to run on a node
+type YAMLRun struct {
+	Node     string
+	Commands []string
+}
+
+// NewYAMLRun returns a new YAMLRun
+func NewYAMLRun(r *Run) *YAMLRun {
+	return &YAMLRun{
+		Node:     r.Node,
+		Commands: r.Commands,
+	}
+}
+
 // YAMLTopology is a yaml representation of a topology
 type YAMLTopology struct {
 	Name  string
 	Nodes []*YAMLNode
 	Links []*YAMLLink
+	Run   []*YAMLRun
 }
 
 // YAML returns the topology as yaml
@@ -113,6 +128,14 @@ func ParseYAMLTopology(b []byte) *Topology {
 		t.AddLink(l)
 	}
 
+	// set run
+	for _, yr := range yt.Run {
+		r := NewRun()
+		r.Node = yr.Node
+		r.Commands = yr.Commands
+		t.AddRun(r)
+	}
+
 	return t
 }
 
@@ -134,6 +157,11 @@ func NewYAMLTopology(t *Topology) *YAMLTopology {
 	// set links
 	for _, l := range t.Links {
 		yt.Links = append(yt.Links, NewYAMLLink(l))
+	}
+
+	// set run
+	for _, r := range t.Run {
+		yt.Run = append(yt.Run, NewYAMLRun(r))
 	}
 
 	return yt

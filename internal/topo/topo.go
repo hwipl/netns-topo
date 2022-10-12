@@ -117,11 +117,23 @@ func NewLink() *Link {
 	return &Link{}
 }
 
+// Run is a list of command to run on a node
+type Run struct {
+	Node     string // TODO: use *Node?
+	Commands []string
+}
+
+// NewRun returns a new Run
+func NewRun() *Run {
+	return &Run{}
+}
+
 // Topology is a network topology
 type Topology struct {
 	Name  string
 	Nodes []*Node
 	Links []*Link
+	Run   []*Run
 }
 
 // String returns the topology as string
@@ -157,6 +169,14 @@ func (t *Topology) AddLink(link *Link) {
 		return
 	}
 	t.Links = append(t.Links, link)
+}
+
+// AddRun adds a list of commands to run to the topology
+func (t *Topology) AddRun(run *Run) {
+	if run == nil {
+		return
+	}
+	t.Run = append(t.Run, run)
 }
 
 // YAML returns the topology as yaml
