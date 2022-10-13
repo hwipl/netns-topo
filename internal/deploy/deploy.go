@@ -12,6 +12,7 @@ type Deploy struct {
 	bridges  []*Bridge
 	routers  []*Router
 	nodeRuns []*Run
+	topoRuns []*Run
 }
 
 // Start starts the deployment
@@ -31,10 +32,16 @@ func (d *Deploy) Start() {
 	for _, r := range d.nodeRuns {
 		r.Start()
 	}
+	for _, r := range d.topoRuns {
+		r.Start()
+	}
 }
 
 // Stop stops the deployment
 func (d *Deploy) Stop() {
+	for _, r := range d.topoRuns {
+		r.Stop()
+	}
 	for _, r := range d.nodeRuns {
 		r.Stop()
 	}
@@ -122,6 +129,12 @@ func (d *Deploy) createRuns() {
 			r.Commands = n.Run
 			d.nodeRuns = append(d.nodeRuns, r)
 		}
+	}
+	for _, run := range d.t.Run {
+		r := NewRun()
+		r.Netns = netnsName(d.t.Name, run.Node)
+		r.Commands = run.Commands
+		d.topoRuns = append(d.topoRuns, r)
 	}
 }
 
