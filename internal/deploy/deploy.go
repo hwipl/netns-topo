@@ -6,12 +6,12 @@ import (
 
 // Deploy is a deployment of a topology
 type Deploy struct {
-	t       *topo.Topology
-	ns      []*Netns
-	veths   []*Veth
-	bridges []*Bridge
-	routers []*Router
-	runs    []*Run
+	t        *topo.Topology
+	ns       []*Netns
+	veths    []*Veth
+	bridges  []*Bridge
+	routers  []*Router
+	nodeRuns []*Run
 }
 
 // Start starts the deployment
@@ -28,14 +28,14 @@ func (d *Deploy) Start() {
 	for _, r := range d.routers {
 		r.Start()
 	}
-	for _, r := range d.runs {
+	for _, r := range d.nodeRuns {
 		r.Start()
 	}
 }
 
 // Stop stops the deployment
 func (d *Deploy) Stop() {
-	for _, r := range d.runs {
+	for _, r := range d.nodeRuns {
 		r.Stop()
 	}
 	for _, r := range d.routers {
@@ -120,7 +120,7 @@ func (d *Deploy) createRuns() {
 			r := NewRun()
 			r.Netns = netnsName(d.t.Name, n.Name)
 			r.Commands = n.Run
-			d.runs = append(d.runs, r)
+			d.nodeRuns = append(d.nodeRuns, r)
 		}
 	}
 }
