@@ -44,11 +44,18 @@ func ParseNodeType(s string) NodeType {
 	return NodeTypeInvalid
 }
 
+// Route is a routing table entry on a node
+type Route struct {
+	Route string
+	Via   string
+}
+
 // Node is a node in a topology
 type Node struct {
-	Name string
-	Type NodeType
-	Run  []string
+	Name   string
+	Type   NodeType
+	Routes []*Route
+	Run    []string
 }
 
 // String returns the node as string

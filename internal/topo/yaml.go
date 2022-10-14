@@ -9,19 +9,24 @@ import (
 // YAMLNodeType is a yaml representation of a node type
 type YAMLNodeType string
 
+// YAMLRoute is a yaml representation of a route on a node
+type YAMLRoute Route
+
 // YAMLNode is a yaml representation of a node
 type YAMLNode struct {
-	Name string
-	Type YAMLNodeType
-	Run  []string
+	Name   string
+	Type   YAMLNodeType
+	Routes []*Route
+	Run    []string
 }
 
 // NewYAMLNode returns a new YAMLNode
 func NewYAMLNode(n *Node) *YAMLNode {
 	return &YAMLNode{
-		Name: n.Name,
-		Type: YAMLNodeType(n.Type.String()),
-		Run:  n.Run,
+		Name:   n.Name,
+		Type:   YAMLNodeType(n.Type.String()),
+		Routes: n.Routes,
+		Run:    n.Run,
 	}
 }
 
@@ -107,6 +112,7 @@ func ParseYAMLTopology(b []byte) *Topology {
 		n := NewNode()
 		n.Name = yn.Name
 		n.Type = ParseNodeType(string(yn.Type))
+		n.Routes = yn.Routes
 		n.Run = yn.Run
 		t.AddNode(n)
 	}
