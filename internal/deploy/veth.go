@@ -1,5 +1,11 @@
 package deploy
 
+import (
+	"crypto/rand"
+	"fmt"
+	"log"
+)
+
 const (
 	tempVeth1 = "netnstopoveth0"
 	tempVeth2 = "netnstopoveth1"
@@ -11,6 +17,22 @@ type Veth struct {
 	Netns [2]string
 	MACs  [2]string
 	IPs   [2]string
+}
+
+// generateMAC returns a random MAC address
+func generateMAC() string {
+	b := make([]byte, 6)
+	_, err := rand.Read(b)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// set local and unicast bits
+	b[0] |= 0b00000010
+	b[0] &= 0b11111110
+
+	return fmt.Sprintf("%02x:%02x:%02x:%02x:%02x:%02x",
+		b[0], b[1], b[2], b[3], b[4], b[5])
 }
 
 // Start starts the veth device
@@ -30,7 +52,7 @@ func (v *Veth) Start() {
 	// set MAC addresses of veth devices
 	for i, mac := range v.MACs {
 		if mac == "" {
-			continue
+			mac = generateMAC()
 		}
 		runNetnsIP(v.Netns[i], "link", "set", v.Name, "address", mac)
 	}
