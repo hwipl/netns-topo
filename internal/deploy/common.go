@@ -1,19 +1,26 @@
 package deploy
 
 import (
+	"io"
 	"log"
 	"os"
 	"os/exec"
 )
 
-// runIP runs the ip command with the parameters params
-func runIP(params ...string) {
+// runIPStdinOutErr runs the ip command with Stdin, Stdout, Stderr and parameters params
+func runIPStdinOutErr(stdin io.Reader, stdout, stderr io.Writer, params ...string) {
 	cmd := exec.Command("ip", params...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	cmd.Stdin = stdin
+	cmd.Stdout = stdout
+	cmd.Stderr = stderr
 	if err := cmd.Run(); err != nil {
 		log.Println(err)
 	}
+}
+
+// runIP runs the ip command with the parameters params
+func runIP(params ...string) {
+	runIPStdinOutErr(nil, os.Stdout, os.Stderr, params...)
 }
 
 // runNetns runs the command and its parameters in params in netns
