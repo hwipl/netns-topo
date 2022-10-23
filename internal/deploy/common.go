@@ -18,6 +18,11 @@ func runIPStdinOutErr(stdin io.Reader, stdout, stderr io.Writer, params ...strin
 	}
 }
 
+// runIPStdout runs the ip command with Stdout and parameters params
+func runIPStdout(stdout io.Writer, params ...string) {
+	runIPStdinOutErr(nil, stdout, os.Stderr, params...)
+}
+
 // runIP runs the ip command with the parameters params
 func runIP(params ...string) {
 	runIPStdinOutErr(nil, os.Stdout, os.Stderr, params...)
