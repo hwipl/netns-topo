@@ -1,6 +1,9 @@
 package deploy
 
 import (
+	"bytes"
+	"strings"
+
 	"github.com/hwipl/netns-topo/internal/topo"
 )
 
@@ -155,6 +158,24 @@ func (d *Deploy) createRuns() {
 		r.Commands = run.Commands
 		d.topoRuns = append(d.topoRuns, r)
 	}
+}
+
+// listNamespaces returns the names of active namespaces
+func listNamespaces() []string {
+	b := &bytes.Buffer{}
+	runIPStdout(b, "netns", "list")
+	nses := []string{}
+	for _, s := range strings.Split(b.String(), "\n") {
+		fields := strings.Fields(s)
+		if len(fields) == 0 {
+			continue
+		}
+		name := fields[0]
+		if strings.HasPrefix(name, "netns-topo-") {
+			nses = append(nses, name)
+		}
+	}
+	return nses
 }
 
 // NewDeploy returns a new deployment for t
