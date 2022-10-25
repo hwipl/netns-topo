@@ -2,6 +2,7 @@ package deploy
 
 import (
 	"bytes"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -24,6 +25,17 @@ type Deploy struct {
 // getDeployDir returns the directory where active deployments are saved
 func getDeployDir() string {
 	dir := filepath.Join(os.TempDir(), "netns-topo", "topologies")
+	return dir
+}
+
+// makeDeployDir creates and returns the directory where active deployments
+// are saved
+func makeDeployDir() string {
+	dir := getDeployDir()
+	err := os.MkdirAll(dir, 0777)
+	if err != nil {
+		log.Fatal(err)
+	}
 	return dir
 }
 
