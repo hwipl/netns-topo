@@ -2,6 +2,8 @@ package deploy
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/hwipl/netns-topo/internal/topo"
@@ -17,6 +19,12 @@ type Deploy struct {
 	routers  []*Router
 	nodeRuns []*Run
 	topoRuns []*Run
+}
+
+// getDeployDir returns the directory where active deployments are saved
+func getDeployDir() string {
+	dir := filepath.Join(os.TempDir(), "netns-topo", "topologies")
+	return dir
 }
 
 // Start starts the deployment
