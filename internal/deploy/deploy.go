@@ -39,8 +39,32 @@ func makeDeployDir() string {
 	return dir
 }
 
+// saveDeployFile saves the deployment in the directory where active
+// deployments are saved
+func (d *Deploy) saveDeployFile() {
+	dir := makeDeployDir()
+	file := filepath.Join(dir, d.t.Name)
+	err := os.WriteFile(file, d.t.YAML(), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+// removeDeployFile removes the deployment from the directory where active
+// deployments are saved
+func (d *Deploy) removeDeployFile() {
+	dir := getDeployDir()
+	file := filepath.Join(dir, d.t.Name)
+	err := os.Remove(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 // Start starts the deployment
 func (d *Deploy) Start() {
+	d.saveDeployFile()
+
 	for _, ns := range d.ns {
 		ns.Start()
 	}
@@ -87,6 +111,8 @@ func (d *Deploy) Stop() {
 	for _, ns := range d.ns {
 		ns.Stop()
 	}
+
+	d.removeDeployFile()
 }
 
 // createNamespaces creates namespaces from t
