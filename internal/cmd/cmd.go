@@ -3,20 +3,10 @@ package cmd
 import (
 	"flag"
 	"log"
-	"os"
 
 	"github.com/hwipl/netns-topo/internal/deploy"
 	"github.com/hwipl/netns-topo/internal/topo"
 )
-
-// parseTopology parses topology from file
-func parseTopology(file string) *topo.Topology {
-	b, err := os.ReadFile(file)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return topo.NewTopologyYAML(b)
-}
 
 // Run is the main entry point
 func Run() {
@@ -28,11 +18,11 @@ func Run() {
 	// handle command
 	switch command {
 	case "start":
-		t := parseTopology(file)
+		t := topo.NewTopologyYAMLFile(file)
 		d := deploy.NewDeploy(t)
 		d.Start()
 	case "stop":
-		t := parseTopology(file)
+		t := topo.NewTopologyYAMLFile(file)
 		d := deploy.NewDeploy(t)
 		d.Stop()
 	default:

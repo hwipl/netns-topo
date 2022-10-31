@@ -2,6 +2,8 @@ package topo
 
 import (
 	"fmt"
+	"log"
+	"os"
 )
 
 // NodeType is the type of a node
@@ -199,4 +201,13 @@ func NewTopology() *Topology {
 // NewTopologyYAML parses and returns the yaml topology in b
 func NewTopologyYAML(b []byte) *Topology {
 	return ParseYAMLTopology(b)
+}
+
+// NewTopologyYAMLFile returns a new topology parsed from yaml file
+func NewTopologyYAMLFile(file string) *Topology {
+	b, err := os.ReadFile(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return NewTopologyYAML(b)
 }
