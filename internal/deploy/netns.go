@@ -11,6 +11,11 @@ const (
 	netnsPrefix = "netns-topo-"
 )
 
+var (
+	// networkNamespaces is the current list of active network namespaces
+	networkNamespaces []string
+)
+
 // Netns is a network namespace
 type Netns struct {
 	Name string
@@ -33,6 +38,12 @@ func (n *Netns) Stop() {
 
 // listNetns returns the names of active network namespaces
 func listNetns() []string {
+	// use buffered list of namespaces if present
+	if networkNamespaces != nil {
+		return networkNamespaces
+	}
+
+	// get list of namespaces
 	b := &bytes.Buffer{}
 	runIPStdout(b, "netns", "list")
 	nses := []string{}
@@ -46,6 +57,9 @@ func listNetns() []string {
 			nses = append(nses, name)
 		}
 	}
+
+	// buffer list of namespaces
+	networkNamespaces = nses
 	return nses
 }
 
