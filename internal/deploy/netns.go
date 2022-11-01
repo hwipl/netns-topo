@@ -1,7 +1,9 @@
 package deploy
 
 import (
+	"bytes"
 	"fmt"
+	"strings"
 )
 
 const (
@@ -27,6 +29,24 @@ func (n *Netns) Start() {
 // Stop stops the network namespace
 func (n *Netns) Stop() {
 	runIP("netns", "delete", n.Name)
+}
+
+// listNetns returns the names of active network namespaces
+func listNetns() []string {
+	b := &bytes.Buffer{}
+	runIPStdout(b, "netns", "list")
+	nses := []string{}
+	for _, s := range strings.Split(b.String(), "\n") {
+		fields := strings.Fields(s)
+		if len(fields) == 0 {
+			continue
+		}
+		name := fields[0]
+		if strings.HasPrefix(name, "netns-topo-") {
+			nses = append(nses, name)
+		}
+	}
+	return nses
 }
 
 // NewNetns returns a new network namespace
