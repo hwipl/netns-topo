@@ -20,6 +20,38 @@ type Deploy struct {
 	topoRuns []*Run
 }
 
+// getNetnsStatus returns the status of all network namespaces
+func (d *Deploy) getNetnsStatus() Status {
+	status := StatusUnknown
+	for _, n := range d.ns {
+		switch n.Status() {
+		case StatusInactive:
+			if status == StatusUnknown {
+				status = StatusInactive
+			}
+			if status == StatusActive {
+				status = StatusPartial
+			}
+		case StatusActive:
+			if status == StatusUnknown {
+				status = StatusActive
+			}
+			if status == StatusInactive {
+				status = StatusPartial
+			}
+		}
+	}
+	return status
+}
+
+// Status returns the status of the deployment
+func (d *Deploy) Status() Status {
+	netnsStatus := d.getNetnsStatus()
+
+	// TODO: add more status checks?
+	return netnsStatus
+}
+
 // getDeployDir returns the directory where active deployments are saved
 func getDeployDir() string {
 	dir := filepath.Join(os.TempDir(), "netns-topo", "topologies")
