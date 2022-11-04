@@ -63,6 +63,17 @@ func listNetns() []string {
 	return nses
 }
 
+// Status returns the status of the network namespace
+func (n *Netns) Status() Status {
+	nses := listNetns()
+	for _, ns := range nses {
+		if n.Name == ns {
+			return StatusActive
+		}
+	}
+	return StatusInactive
+}
+
 // NewNetns returns a new network namespace
 func NewNetns() *Netns {
 	return &Netns{}
