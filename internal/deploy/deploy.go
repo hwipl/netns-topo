@@ -93,6 +93,11 @@ func (d *Deploy) removeDeployFile() {
 
 // Start starts the deployment
 func (d *Deploy) Start() {
+	if d.Status() == StatusActive {
+		log.Println(d.t.Name, "already active")
+		return
+	}
+
 	d.saveDeployFile()
 
 	for _, ns := range d.ns {
