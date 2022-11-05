@@ -125,6 +125,11 @@ func (d *Deploy) Start() {
 
 // Stop stops the deployment
 func (d *Deploy) Stop() {
+	if d.Status() != StatusActive {
+		log.Println(d.t.Name, "not active")
+		return
+	}
+
 	for _, r := range d.topoRuns {
 		r.Stop()
 	}
