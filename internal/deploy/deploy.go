@@ -1,6 +1,8 @@
 package deploy
 
 import (
+	"errors"
+	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -258,4 +260,34 @@ func NewDeploy(t *topo.Topology) *Deploy {
 	d.createRouters()
 	d.createRuns()
 	return d
+}
+
+// listDeployDir returns the deployments saved in the directory for
+// active deployments
+func listDeployDir() []*Deploy {
+	deploys := []*Deploy{}
+
+	// read content of deployment directory
+	dir := getDeployDir()
+	files, err := os.ReadDir(dir)
+	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			return deploys
+		}
+
+		log.Fatal(err)
+	}
+
+	// read deployments
+	for _, f := range files {
+		if f.IsDir() {
+			continue
+		}
+
+		t := topo.NewTopologyYAMLFile(filepath.Join(dir, f.Name()))
+		d := NewDeploy(t)
+		deploys = append(deploys, d)
+	}
+
+	return deploys
 }
