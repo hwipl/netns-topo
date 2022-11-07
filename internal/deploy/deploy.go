@@ -2,6 +2,7 @@ package deploy
 
 import (
 	"errors"
+	"fmt"
 	"io/fs"
 	"log"
 	"os"
@@ -290,4 +291,11 @@ func listDeployDir() []*Deploy {
 	}
 
 	return deploys
+}
+
+// ListDeploys lists active deploys
+func ListDeploys() {
+	for _, d := range listDeployDir() {
+		fmt.Println(d.t.Name, d.Status())
+	}
 }
