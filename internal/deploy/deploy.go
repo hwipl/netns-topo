@@ -158,6 +158,13 @@ func (d *Deploy) Stop() {
 	d.removeDeployFile()
 }
 
+// RunCmd runs cmd on node in the deployment
+func (d *Deploy) RunCmd(node, cmd string) {
+	runIPStdinOutErr(os.Stdin, os.Stdout, os.Stderr,
+		"netns", "exec", netnsName(d.t.Name, node),
+		"/bin/bash", "-c", cmd)
+}
+
 // createNamespaces creates namespaces from t
 func (d *Deploy) createNamespaces() {
 	for _, n := range d.t.Nodes {
