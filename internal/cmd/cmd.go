@@ -27,6 +27,12 @@ func Run() {
 		d.Stop()
 	case "list":
 		deploy.ListDeploys()
+	case "run":
+		t := topo.NewTopologyYAMLFile(file)
+		d := deploy.NewDeploy(t)
+		node := flag.Arg(2)
+		cmd := flag.Arg(3)
+		d.RunCmd(node, cmd)
 	default:
 		log.Fatal("unknown command: ", command)
 	}
