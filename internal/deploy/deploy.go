@@ -160,6 +160,11 @@ func (d *Deploy) Stop() {
 
 // RunCmd runs cmd on node in the deployment
 func (d *Deploy) RunCmd(node, cmd string) {
+	if d.Status() != StatusActive {
+		log.Println(d.t.Name, "not active")
+		return
+	}
+
 	runIPStdinOutErr(os.Stdin, os.Stdout, os.Stderr,
 		"netns", "exec", netnsName(d.t.Name, node),
 		"/bin/bash", "-c", cmd)
