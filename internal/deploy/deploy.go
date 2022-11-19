@@ -305,9 +305,14 @@ func listDeployDir() []*Deploy {
 	return deploys
 }
 
-// ListDeploys lists active deploys
+// GetDeploys returns all deployments
+func GetDeploys() []*Deploy {
+	return listDeployDir()
+}
+
+// ListDeploy lists active deploys
 func ListDeploys() {
-	for _, d := range listDeployDir() {
+	for _, d := range GetDeploys() {
 		fmt.Println(d.t.Name, d.Status())
 	}
 }
