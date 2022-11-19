@@ -310,6 +310,16 @@ func GetDeploys() []*Deploy {
 	return listDeployDir()
 }
 
+// GetDeploy returns the deployment identified by name
+func GetDeploy(name string) *Deploy {
+	for _, d := range GetDeploys() {
+		if d.t.Name == name {
+			return d
+		}
+	}
+	return nil
+}
+
 // ListDeploy lists active deploys
 func ListDeploys() {
 	for _, d := range GetDeploys() {
