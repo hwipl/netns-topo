@@ -8,28 +8,36 @@ import (
 	"github.com/hwipl/netns-topo/internal/topo"
 )
 
+// findDeploy tries to find an existing deploy identified by name or reading
+// it from a file identified by name
+func findDeploy(name string) *deploy.Deploy {
+	d := deploy.GetDeploy(name)
+	if d == nil {
+		t := topo.NewTopologyYAMLFile(name)
+		d = deploy.NewDeploy(t)
+	}
+	return d
+}
+
 // Run is the main entry point
 func Run() {
 	// parse command line arguments
 	flag.Parse()
 	command := flag.Arg(0)
-	file := flag.Arg(1)
+	name := flag.Arg(1)
 
 	// handle command
 	switch command {
 	case "start":
-		t := topo.NewTopologyYAMLFile(file)
-		d := deploy.NewDeploy(t)
+		d := findDeploy(name)
 		d.Start()
 	case "stop":
-		t := topo.NewTopologyYAMLFile(file)
-		d := deploy.NewDeploy(t)
+		d := findDeploy(name)
 		d.Stop()
 	case "list":
 		deploy.ListDeploys()
 	case "run":
-		t := topo.NewTopologyYAMLFile(file)
-		d := deploy.NewDeploy(t)
+		d := findDeploy(name)
 		node := flag.Arg(2)
 		cmd := flag.Arg(3)
 		d.RunCmd(node, cmd)
