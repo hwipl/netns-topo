@@ -265,7 +265,7 @@ func TestTopologyYAML(t *testing.T) {
 	want.AddLink(link)
 
 	got = NewTopologyYAML(want.YAML())
-	if !reflect.DeepEqual(got, want) {
+	if got.String() != want.String() {
 		t.Errorf("got %s, want %s", got, want)
 	}
 }
@@ -312,7 +312,7 @@ func TestNewTopologyYAML(t *testing.T) {
 	want.AddLink(link)
 
 	got := NewTopologyYAML(want.YAML())
-	if !reflect.DeepEqual(got, want) {
+	if got.String() != want.String() {
 		t.Errorf("got %s, want %s", got, want)
 	}
 }
