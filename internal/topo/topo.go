@@ -52,6 +52,14 @@ type Route struct {
 	Via   string
 }
 
+// String returns the route as string
+func (r *Route) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Route: %s, Via: %s}", r.Route, r.Via)
+}
+
 // Node is a node in a topology
 type Node struct {
 	Name   string
