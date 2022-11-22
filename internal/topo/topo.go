@@ -140,6 +140,14 @@ type Run struct {
 	Commands []string
 }
 
+// String returns run as string
+func (r *Run) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Node: %s, Commands: %s}", r.Node, r.Commands)
+}
+
 // NewRun returns a new Run
 func NewRun() *Run {
 	return &Run{}
