@@ -39,7 +39,7 @@ func TestNodeString(t *testing.T) {
 	// test node
 	node := NewNode()
 	node.Name = "mynode"
-	want := "{Name: mynode, Type: node}"
+	want := "{Name: mynode, Type: node, Routes: [], Run: []}"
 	got := node.String()
 	if got != want {
 		t.Errorf("got %s, want %s", got, want)
@@ -103,7 +103,7 @@ func TestLinkString(t *testing.T) {
 	// test link
 	link := NewLink()
 	link.Name = "mylink"
-	want := "{Name: mylink, Type: veth, Nodes: [<nil> <nil>]}"
+	want := "{Name: mylink, Type: veth, Nodes: [<nil> <nil>], MACs: [ ], IPs: [ ]}"
 	got := link.String()
 	if got != want {
 		t.Errorf("got %s, want %s", got, want)
@@ -138,7 +138,7 @@ func TestTopologyString(t *testing.T) {
 	// test topology
 	topology := NewTopology()
 	topology.Name = "mytopology"
-	want := "{Name: mytopology, Nodes: [], Links: []}"
+	want := "{Name: mytopology, Nodes: [], Links: [], Run: []}"
 	got := topology.String()
 	if got != want {
 		t.Errorf("got %s, want %s", got, want)

@@ -6,12 +6,21 @@ import (
 
 // TestParseYAMLTopology tests parsing yaml topologies
 func TestParseYAMLTopology(t *testing.T) {
-	want := "{Name: Topo1, Nodes: [{Name: Node1, Type: node} " +
-		"{Name: Node2, Type: node} {Name: Node3, Type: node}], " +
-		"Links: [{Name: Link1, Type: veth, Nodes: [{Name: Node1, " +
-		"Type: node} {Name: Node2, Type: node}]} {Name: Link2, " +
-		"Type: veth, Nodes: [{Name: Node2, Type: node} " +
-		"{Name: Node3, Type: node}]}]}"
+	want := "{Name: Topo1, Nodes: [" +
+		"{Name: Node1, Type: node, Routes: [], Run: []} " +
+		"{Name: Node2, Type: node, Routes: [], Run: []} " +
+		"{Name: Node3, Type: node, Routes: [], Run: []}" +
+		"], " +
+		"Links: [" +
+		"{Name: Link1, Type: veth, Nodes: [" +
+		"{Name: Node1, Type: node, Routes: [], Run: []} " +
+		"{Name: Node2, Type: node, Routes: [], Run: []}" +
+		"], MACs: [ ], IPs: [ ]} " +
+		"{Name: Link2, Type: veth, Nodes: [" +
+		"{Name: Node2, Type: node, Routes: [], Run: []} " +
+		"{Name: Node3, Type: node, Routes: [], Run: []}" +
+		"], MACs: [ ], IPs: [ ]}" +
+		"], Run: []}"
 
 	yaml := []byte(`name: Topo1
 nodes:

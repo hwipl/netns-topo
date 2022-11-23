@@ -73,7 +73,8 @@ func (n *Node) String() string {
 	if n == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Name: %s, Type: %s}", n.Name, &n.Type)
+	return fmt.Sprintf("{Name: %s, Type: %s, Routes: %s, Run: %s}",
+		n.Name, &n.Type, n.Routes, n.Run)
 }
 
 // NewNode returns a new Node
@@ -125,8 +126,8 @@ func (l *Link) String() string {
 	if l == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Name: %s, Type: %s, Nodes: %s}", l.Name, &l.Type,
-		l.Nodes)
+	return fmt.Sprintf("{Name: %s, Type: %s, Nodes: %s, MACs: %s, IPs: %s}",
+		l.Name, &l.Type, l.Nodes, l.MACs, l.IPs)
 }
 
 // NewLink returns a new Link
@@ -166,8 +167,8 @@ func (t *Topology) String() string {
 	if t == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Name: %s, Nodes: %s, Links: %s}", t.Name, t.Nodes,
-		t.Links)
+	return fmt.Sprintf("{Name: %s, Nodes: %s, Links: %s, Run: %s}",
+		t.Name, t.Nodes, t.Links, t.Run)
 }
 
 // AddNode adds a node to the topology
