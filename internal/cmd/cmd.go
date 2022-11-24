@@ -19,6 +19,14 @@ func findDeploy(name string) *deploy.Deploy {
 	return d
 }
 
+// isForce returns whether force was specified on the command line
+func isForce() bool {
+	if flag.Arg(2) == "force" {
+		return true
+	}
+	return false
+}
+
 // Run is the main entry point
 func Run() {
 	// parse command line arguments
@@ -30,7 +38,7 @@ func Run() {
 	switch command {
 	case "start":
 		d := findDeploy(name)
-		d.Start()
+		d.Start(isForce())
 	case "stop":
 		d := findDeploy(name)
 		d.Stop()

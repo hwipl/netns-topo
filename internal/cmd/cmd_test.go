@@ -78,7 +78,7 @@ func TestAll(_ *testing.T) {
 
 	// deploy topology
 	d := deploy.NewDeploy(t)
-	d.Start()
+	d.Start(false)
 	defer d.Stop()
 
 }
