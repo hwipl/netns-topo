@@ -127,8 +127,8 @@ func (d *Deploy) Start(force bool) {
 }
 
 // Stop stops the deployment
-func (d *Deploy) Stop() {
-	if d.Status() != StatusActive {
+func (d *Deploy) Stop(force bool) {
+	if !force && d.Status() != StatusActive {
 		log.Println(d.t.Name, "not active")
 		return
 	}

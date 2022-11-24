@@ -41,7 +41,7 @@ func Run() {
 		d.Start(isForce())
 	case "stop":
 		d := findDeploy(name)
-		d.Stop()
+		d.Stop(isForce())
 	case "list":
 		deploy.ListDeploys()
 	case "run":
