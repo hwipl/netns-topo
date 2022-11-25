@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 // NodeType is the type of a node
@@ -208,6 +209,31 @@ func (t *Topology) AddRun(run *Run) {
 // YAML returns the topology as yaml
 func (t *Topology) YAML() []byte {
 	return NewYAMLTopology(t).YAML()
+}
+
+// getTopologyDir returns the directory where topologies are saved
+func getTopologyDir() string {
+	return "/var/lib/netns-topo/topologies"
+}
+
+// makeTopologyDir creates and returns the directory where topologies are saved
+func makeTopologyDir() string {
+	dir := getTopologyDir()
+	err := os.MkdirAll(dir, 0755)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return dir
+}
+
+// SaveTopologyFile saves the topology in the topologies directory
+func (t *Topology) SaveTopologyFile() {
+	dir := makeTopologyDir()
+	file := filepath.Join(dir, t.Name)
+	err := os.WriteFile(file, t.YAML(), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // NewTopology returns a new Topology
