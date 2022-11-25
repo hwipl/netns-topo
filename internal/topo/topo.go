@@ -236,6 +236,16 @@ func (t *Topology) SaveTopologyFile() {
 	}
 }
 
+// RemoveTopologyFile removes the topology from the topologies directory
+func (t *Topology) RemoveTopologyFile() {
+	dir := getTopologyDir()
+	file := filepath.Join(dir, t.Name)
+	err := os.Remove(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 // NewTopology returns a new Topology
 func NewTopology() *Topology {
 	return &Topology{}
