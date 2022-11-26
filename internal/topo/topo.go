@@ -1,7 +1,9 @@
 package topo
 
 import (
+	"errors"
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -263,4 +265,32 @@ func NewTopologyYAMLFile(file string) *Topology {
 		log.Fatal(err)
 	}
 	return NewTopologyYAML(b)
+}
+
+// listTopologyDir returns the topologies saved in the topologies directory
+func listTopologyDir() []*Topology {
+	topos := []*Topology{}
+
+	// read content of topologies directory
+	dir := getTopologyDir()
+	files, err := os.ReadDir(dir)
+	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			return topos
+		}
+
+		log.Fatal(err)
+	}
+
+	// read topologies
+	for _, f := range files {
+		if f.IsDir() {
+			continue
+		}
+
+		t := NewTopologyYAMLFile(filepath.Join(dir, f.Name()))
+		topos = append(topos, t)
+	}
+
+	return topos
 }
