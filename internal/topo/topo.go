@@ -294,3 +294,8 @@ func listTopologyDir() []*Topology {
 
 	return topos
 }
+
+// GetTopologies returns all topologies
+func GetTopologies() []*Topology {
+	return listTopologyDir()
+}
