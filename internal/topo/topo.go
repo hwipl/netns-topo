@@ -299,3 +299,13 @@ func listTopologyDir() []*Topology {
 func GetTopologies() []*Topology {
 	return listTopologyDir()
 }
+
+// GetTopology returns the topology identified by name
+func GetTopology(name string) *Topology {
+	for _, t := range GetTopologies() {
+		if t.Name == name {
+			return t
+		}
+	}
+	return nil
+}
