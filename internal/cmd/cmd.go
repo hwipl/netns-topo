@@ -58,6 +58,9 @@ func Run() {
 	case "save":
 		d := findDeploy(name)
 		d.Topology().SaveTopologyFile()
+	case "remove":
+		d := findDeploy(name)
+		d.Topology().RemoveTopologyFile()
 	default:
 		log.Fatal("unknown command: ", command)
 	}
