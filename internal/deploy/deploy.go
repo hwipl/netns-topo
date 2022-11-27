@@ -23,6 +23,11 @@ type Deploy struct {
 	topoRuns []*Run
 }
 
+// Topology returns the topology of the deployment
+func (d *Deploy) Topology() *topo.Topology {
+	return d.t
+}
+
 // getNetnsStatus returns the status of all network namespaces
 func (d *Deploy) getNetnsStatus() Status {
 	status := StatusUnknown
