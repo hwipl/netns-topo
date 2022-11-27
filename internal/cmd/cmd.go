@@ -55,6 +55,9 @@ func Run() {
 		node := flag.Arg(2)
 		cmd := flag.Arg(3)
 		d.RunCmd(node, cmd)
+	case "save":
+		d := findDeploy(name)
+		d.Topology().SaveTopologyFile()
 	default:
 		log.Fatal("unknown command: ", command)
 	}
