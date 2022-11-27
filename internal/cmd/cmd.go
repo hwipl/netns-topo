@@ -8,10 +8,16 @@ import (
 	"github.com/hwipl/netns-topo/internal/topo"
 )
 
-// findDeploy tries to find an existing deploy identified by name or reading
-// it from a file identified by name
+// findDeploy tries to find an existing deploy identified by name, to read it
+// from a saved topology identified by name, or to read it from a file
+// identified by name
 func findDeploy(name string) *deploy.Deploy {
 	d := deploy.GetDeploy(name)
+	if d == nil {
+		if t := topo.GetTopology(name); t != nil {
+			d = deploy.NewDeploy(t)
+		}
+	}
 	if d == nil {
 		t := topo.NewTopologyYAMLFile(name)
 		d = deploy.NewDeploy(t)
