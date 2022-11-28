@@ -309,3 +309,13 @@ func GetTopology(name string) *Topology {
 	}
 	return nil
 }
+
+// ListTopologies lists topologies
+func ListTopologies() {
+	fmt.Println("Saved Topologies:")
+	fmt.Println("=================")
+	for _, t := range GetTopologies() {
+		fmt.Println(t.Name)
+	}
+	fmt.Println()
+}

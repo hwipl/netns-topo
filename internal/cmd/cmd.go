@@ -49,6 +49,7 @@ func Run() {
 		d := findDeploy(name)
 		d.Stop(isForce())
 	case "list":
+		topo.ListTopologies()
 		deploy.ListDeploys()
 	case "run":
 		d := findDeploy(name)

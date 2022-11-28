@@ -327,7 +327,10 @@ func GetDeploy(name string) *Deploy {
 
 // ListDeploy lists active deploys
 func ListDeploys() {
+	fmt.Println("Active Topologies:")
+	fmt.Println("==================")
 	for _, d := range GetDeploys() {
-		fmt.Println(d.t.Name, d.Status())
+		fmt.Printf("%s\t(%s)\n", d.t.Name, d.Status())
 	}
+	fmt.Println()
 }
