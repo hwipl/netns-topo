@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"flag"
+	"fmt"
 	"log"
 
 	"github.com/hwipl/netns-topo/internal/deploy"
@@ -33,6 +34,16 @@ func isForce() bool {
 	return false
 }
 
+// listTopologies lists topologies
+func listTopologies() {
+	fmt.Println("Saved Topologies:")
+	fmt.Println("=================")
+	for _, t := range topo.GetTopologies() {
+		fmt.Println(t.Name)
+	}
+	fmt.Println()
+}
+
 // Run is the main entry point
 func Run() {
 	// parse command line arguments
@@ -49,7 +60,7 @@ func Run() {
 		d := findDeploy(name)
 		d.Stop(isForce())
 	case "list":
-		topo.ListTopologies()
+		listTopologies()
 		deploy.ListDeploys()
 	case "run":
 		d := findDeploy(name)
