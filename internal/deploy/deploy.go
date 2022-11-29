@@ -2,7 +2,6 @@ package deploy
 
 import (
 	"errors"
-	"fmt"
 	"io/fs"
 	"log"
 	"os"
@@ -323,14 +322,4 @@ func GetDeploy(name string) *Deploy {
 		}
 	}
 	return nil
-}
-
-// ListDeploy lists active deploys
-func ListDeploys() {
-	fmt.Println("Active Topologies:")
-	fmt.Println("==================")
-	for _, d := range GetDeploys() {
-		fmt.Printf("%s\t(%s)\n", d.t.Name, d.Status())
-	}
-	fmt.Println()
 }

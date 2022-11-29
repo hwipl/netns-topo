@@ -44,6 +44,16 @@ func listTopologies() {
 	fmt.Println()
 }
 
+// listDeploy lists active deploys
+func listDeploys() {
+	fmt.Println("Active Topologies:")
+	fmt.Println("==================")
+	for _, d := range deploy.GetDeploys() {
+		fmt.Printf("%s\t(%s)\n", d.Topology().Name, d.Status())
+	}
+	fmt.Println()
+}
+
 // Run is the main entry point
 func Run() {
 	// parse command line arguments
@@ -61,7 +71,7 @@ func Run() {
 		d.Stop(isForce())
 	case "list":
 		listTopologies()
-		deploy.ListDeploys()
+		listDeploys()
 	case "run":
 		d := findDeploy(name)
 		node := flag.Arg(2)
