@@ -4,10 +4,37 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/hwipl/netns-topo/internal/deploy"
 	"github.com/hwipl/netns-topo/internal/topo"
 )
+
+// usage prints the usage message
+func usage() {
+	out := flag.CommandLine.Output()
+	fmt.Fprintf(out, "Usage of %s:\n", os.Args[0])
+	fmt.Fprintf(out, "  %s <command>\n\n", os.Args[0])
+	fmt.Fprintf(out, "Commands:\n")
+	for _, s := range []string{
+		"start <topology> [force]",
+		"\tstart topology",
+		"stop <topology> [force]",
+		"\tstop topology",
+		"list",
+		"\tlist topologies",
+		"run <topology> <node> <command>",
+		"\trun command on node in topology",
+		"save <topology>",
+		"\tsave topology",
+		"remove <topology>",
+		"\tremove saved topology",
+		"help",
+		"\tshow this help",
+	} {
+		fmt.Fprintf(out, "  %s\n", s)
+	}
+}
 
 // findDeploy tries to find an existing deploy identified by name, to read it
 // from a saved topology identified by name, or to read it from a file
@@ -57,6 +84,7 @@ func listDeploys() {
 // Run is the main entry point
 func Run() {
 	// parse command line arguments
+	flag.Usage = usage
 	flag.Parse()
 	command := flag.Arg(0)
 	name := flag.Arg(1)
@@ -83,7 +111,10 @@ func Run() {
 	case "remove":
 		d := findDeploy(name)
 		d.Topology().RemoveTopologyFile()
+	case "help":
+		flag.Usage()
 	default:
+		flag.Usage()
 		log.Fatal("unknown command: ", command)
 	}
 }
