@@ -23,7 +23,7 @@ func usage() {
 		"\tstop topology",
 		"list",
 		"\tlist topologies",
-		"run <topology> <node> <command>",
+		"run <topology> <node> <cmd>",
 		"\trun command on node in topology",
 		"save <topology>",
 		"\tsave topology",
@@ -34,6 +34,11 @@ func usage() {
 	} {
 		fmt.Fprintf(out, "  %s\n", s)
 	}
+	fmt.Fprintf(out, `
+<topology> is a yaml file or the name of a currently active or saved topology.
+<node> is the name of the node as defined in the topology.
+<cmd> is a regular linux command like "ip route".
+`)
 }
 
 // findDeploy tries to find an existing deploy identified by name, to read it
